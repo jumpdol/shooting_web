@@ -23,8 +23,8 @@ export const PROTOCOLS = [
     ],
   },
   {
-    id: '45min',
-    name: '45-Minute Protocol',
+    id: '50min',
+    name: '50-Minute Protocol',
     blocks: [
       { id: 1, repeats: 10, shootingDuration: 40, restDuration: 5, goal: 'High Intensity Warm-up' },
       { id: 2, repeats: 10, shootingDuration: 50, restDuration: 10, goal: 'Sustained Focus' },
@@ -38,7 +38,7 @@ export const PROTOCOLS = [
     name: 'Red/Green Cycle (50 Minutes)',
     isSimpleCycle: true, // Flag for 0 prep/cue logic
     blocks: [
-      { id: 1, repeats: 300, shootingDuration: 7, restDuration: 3, goal: 'High Frequency' },
+      { id: 1, repeats: 300, shootingDuration: 3, restDuration: 7, goal: 'High Frequency' },
     ],
   },
   {
