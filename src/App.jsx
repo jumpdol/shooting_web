@@ -140,14 +140,16 @@ function App() {
                 {timer.isPaused ? <Play fill="currentColor" size={24} /> : <Pause fill="currentColor" size={24} />}
               </motion.button>
 
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => timer.stopSession() || setSelectedProtocol(null)}
-                className="w-16 h-16 rounded-full glass flex items-center justify-center text-stop"
-              >
-                <Square fill="currentColor" size={24} />
-              </motion.button>
+              {!selectedProtocol.isSimpleCycle && (
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => timer.stopSession() || setSelectedProtocol(null)}
+                  className="w-16 h-16 rounded-full glass flex items-center justify-center text-stop"
+                >
+                  <Square fill="currentColor" size={24} />
+                </motion.button>
+              )}
             </>
           )}
         </div>
