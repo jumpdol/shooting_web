@@ -79,7 +79,6 @@ export const useTimerEngine = (protocol) => {
     timerRef.current = setInterval(() => {
       setTimeLeft(prev => {
         if (prev <= 1) {
-          handlePhaseTransition();
           return 0;
         }
         return prev - 1;
@@ -90,6 +89,13 @@ export const useTimerEngine = (protocol) => {
     return () => clearInterval(timerRef.current);
   }, [phase, isPaused, currentBlockIndex, currentRepeat]);
 
+  // Handle phase transition when timeLeft hits 0
+  useEffect(() => {
+    if (phase !== PHASES.IDLE && phase !== PHASES.FINISHED && !isPaused && timeLeft === 0) {
+      handlePhaseTransition();
+    }
+  }, [timeLeft, phase, isPaused]);
+
   const handlePhaseTransition = () => {
     const currentBlock = protocol.blocks[currentBlockIndex];
     const isSimple = protocol.isSimpleCycle;
@@ -98,6 +104,7 @@ export const useTimerEngine = (protocol) => {
       if (phase === PHASES.REST) {
         setPhase(PHASES.SHOOTING);
         setTimeLeft(currentBlock.shootingDuration);
+        audioService.init(); // Just in case
         audioService.playDoubleBeep();
       } else {
         // From Shooting to Rest
@@ -110,6 +117,7 @@ export const useTimerEngine = (protocol) => {
            }
            setPhase(PHASES.REST);
            setTimeLeft(currentBlock.restDuration);
+           audioService.init();
            audioService.playSingleBeep(); // Single beep for Red
         } else {
            setPhase(PHASES.FINISHED);

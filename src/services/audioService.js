@@ -37,9 +37,16 @@ class AudioService {
     this.playSound(this.sounds.stop);
   }
 
-  // Internal helper for synthetic beep
   _playSyntheticBeep(freq = 880, dur = 0.2) {
-    const context = new (window.AudioContext || window.webkitAudioContext)();
+    if (!this.audioContext) {
+      this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    
+    if (this.audioContext.state === 'suspended') {
+      this.audioContext.resume();
+    }
+
+    const context = this.audioContext;
     const osc = context.createOscillator();
     const gain = context.createGain();
 
